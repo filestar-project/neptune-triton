@@ -385,6 +385,10 @@ module p4: hasher = make_hasher bls12_381 { let arity = 4i32
                                             let full_rounds = 8i32
                                             let partial_rounds = 56i32 }
 
+module p5: hasher = make_hasher bls12_381 { let arity = 5i32
+                                            let full_rounds = 8i32
+                                            let partial_rounds = 56i32 }
+
 module p8: hasher = make_hasher bls12_381 { let arity = 8i32
                                             let full_rounds = 8i32
                                             let partial_rounds = 57i32 }
@@ -396,6 +400,10 @@ module s2: hasher = make_hasher bls12_381 { let arity = 2i32
                                             let partial_rounds = 69i32 }
 
 module s4: hasher = make_hasher bls12_381 { let arity = 4i32
+                                            let full_rounds = 8i32
+                                            let partial_rounds = 70i32 }
+
+module s5: hasher = make_hasher bls12_381 { let arity = 5i32
                                             let full_rounds = 8i32
                                             let partial_rounds = 70i32 }
 
@@ -431,6 +439,19 @@ entry init2 (arity_tag: ([p2.Field.LIMBS]u64))
               : p2_state =
   let constants = p2.make_constants arity_tag round_keys mds_matrix pre_sparse_matrix sparse_matrixes in
   p2.init constants
+
+
+type p5_state = p5.state
+
+entry init5 (arity_tag: ([p5.Field.LIMBS]u64))
+           (round_keys: [p5.rk_count]([p5.Field.LIMBS]u64))
+           (mds_matrix: matrix ([p5.Field.LIMBS]u64) [p5.width])
+           (pre_sparse_matrix: matrix ([p5.Field.LIMBS]u64) [p5.width])
+           (sparse_matrixes: [p5.sparse_count][p5.sparse_matrix_size]([p5.Field.LIMBS]u64))
+              : p5_state =
+  let constants = p5.make_constants arity_tag round_keys mds_matrix pre_sparse_matrix sparse_matrixes in
+  p5.init constants
+
 
 type p8_state = p8.state
 
@@ -470,6 +491,19 @@ entry init2s (arity_tag: ([s2.Field.LIMBS]u64))
   let constants = s2.make_constants arity_tag round_keys mds_matrix pre_sparse_matrix sparse_matrixes in
   s2.init constants
 
+
+type s5_state = s5.state
+
+entry init5s (arity_tag: ([s5.Field.LIMBS]u64))
+           (round_keys: [s5.rk_count]([s5.Field.LIMBS]u64))
+           (mds_matrix: matrix ([s5.Field.LIMBS]u64) [s5.width])
+           (pre_sparse_matrix: matrix ([s5.Field.LIMBS]u64) [s5.width])
+           (sparse_matrixes: [s5.sparse_count][s5.sparse_matrix_size]([s5.Field.LIMBS]u64))
+              : s5_state =
+  let constants = s5.make_constants arity_tag round_keys mds_matrix pre_sparse_matrix sparse_matrixes in
+  s5.init constants
+
+
 type s8_state = s8.state
 
 entry init8s (arity_tag: ([s8.Field.LIMBS]u64))
@@ -493,11 +527,13 @@ entry init11s (arity_tag: ([s11.Field.LIMBS]u64))
   s11.init constants
 
 entry mbatch_hash2 [u64_count] (s: p2_state) (u64s: [u64_count]u64): ([][p2.Field.LIMBS]u64, p2_state) = p2.hash_preimages_monts s u64s
+entry mbatch_hash5 [u64_count] (s: p5_state) (u64s: [u64_count]u64): ([][p5.Field.LIMBS]u64, p5_state) = p5.hash_preimages_monts s u64s
 entry mbatch_hash8 [u64_count] (s: p8_state) (u64s: [u64_count]u64): ([][p8.Field.LIMBS]u64, p8_state) = p8.hash_preimages_monts s u64s
 entry mbatch_hash11 [u64_count] (s: p11_state) (u64s: [u64_count]u64): ([][p11.Field.LIMBS]u64, p11_state) = p11.hash_preimages_monts s u64s
 
 -- Strengthened
 entry mbatch_hash2s [u64_count] (s: s2_state) (u64s: [u64_count]u64): ([][s2.Field.LIMBS]u64, s2_state) = s2.hash_preimages_monts s u64s
+entry mbatch_hash5s [u64_count] (s: s5_state) (u64s: [u64_count]u64): ([][s5.Field.LIMBS]u64, s5_state) = s5.hash_preimages_monts s u64s
 entry mbatch_hash8s [u64_count] (s: s8_state) (u64s: [u64_count]u64): ([][s8.Field.LIMBS]u64, s8_state) = s8.hash_preimages_monts s u64s
 entry mbatch_hash11s [u64_count] (s: s11_state) (u64s: [u64_count]u64): ([][s11.Field.LIMBS]u64, s11_state) = s11.hash_preimages_monts s u64s
 

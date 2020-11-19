@@ -178,6 +178,48 @@ impl FutharkContext {
         }
     }
 
+    pub fn init5(
+        &mut self,
+        in0: Array_u64_1d,
+        in1: Array_u64_2d,
+        in2: Array_u64_3d,
+        in3: Array_u64_3d,
+        in4: Array_u64_3d,
+    ) -> Result<(FutharkOpaqueP5State)> {
+        let ctx = self.ptr();
+        unsafe {
+            _init5(
+                ctx,
+                in0.as_raw_mut(),
+                in1.as_raw_mut(),
+                in2.as_raw_mut(),
+                in3.as_raw_mut(),
+                in4.as_raw_mut(),
+            )
+        }
+    }
+
+    pub fn init5s(
+        &mut self,
+        in0: Array_u64_1d,
+        in1: Array_u64_2d,
+        in2: Array_u64_3d,
+        in3: Array_u64_3d,
+        in4: Array_u64_3d,
+    ) -> Result<(FutharkOpaqueS5State)> {
+        let ctx = self.ptr();
+        unsafe {
+            _init5s(
+                ctx,
+                in0.as_raw_mut(),
+                in1.as_raw_mut(),
+                in2.as_raw_mut(),
+                in3.as_raw_mut(),
+                in4.as_raw_mut(),
+            )
+        }
+    }
+
     pub fn init8(
         &mut self,
         in0: Array_u64_1d,
@@ -275,6 +317,24 @@ impl FutharkContext {
     ) -> Result<(Array_u64_2d, FutharkOpaqueS2State)> {
         let ctx = self.ptr();
         unsafe { _mbatch_hash2s(ctx, in0.as_raw_mut(), in1.as_raw_mut()) }
+    }
+
+    pub fn mbatch_hash5(
+        &mut self,
+        in0: &FutharkOpaqueP5State,
+        in1: Array_u64_1d,
+    ) -> Result<(Array_u64_2d, FutharkOpaqueP5State)> {
+        let ctx = self.ptr();
+        unsafe { _mbatch_hash5(ctx, in0.as_raw_mut(), in1.as_raw_mut()) }
+    }
+
+    pub fn mbatch_hash5s(
+        &mut self,
+        in0: &FutharkOpaqueS5State,
+        in1: Array_u64_1d,
+    ) -> Result<(Array_u64_2d, FutharkOpaqueS5State)> {
+        let ctx = self.ptr();
+        unsafe { _mbatch_hash5s(ctx, in0.as_raw_mut(), in1.as_raw_mut()) }
     }
 
     pub fn mbatch_hash8(
@@ -388,6 +448,36 @@ unsafe fn _init2s(
     }
     Ok((FutharkOpaqueS2State::from_ptr(ctx, raw_out0)))
 }
+unsafe fn _init5(
+    ctx: *mut bindings::futhark_context,
+    in0: *const bindings::futhark_u64_1d,
+    in1: *const bindings::futhark_u64_2d,
+    in2: *const bindings::futhark_u64_3d,
+    in3: *const bindings::futhark_u64_3d,
+    in4: *const bindings::futhark_u64_3d,
+) -> Result<(FutharkOpaqueP5State)> {
+    let mut raw_out0 = std::ptr::null_mut();
+
+    if bindings::futhark_entry_init5(ctx, &mut raw_out0, in0, in1, in2, in3, in4) != 0 {
+        return Err(FutharkError::new(ctx).into());
+    }
+    Ok((FutharkOpaqueP5State::from_ptr(ctx, raw_out0)))
+}
+unsafe fn _init5s(
+    ctx: *mut bindings::futhark_context,
+    in0: *const bindings::futhark_u64_1d,
+    in1: *const bindings::futhark_u64_2d,
+    in2: *const bindings::futhark_u64_3d,
+    in3: *const bindings::futhark_u64_3d,
+    in4: *const bindings::futhark_u64_3d,
+) -> Result<(FutharkOpaqueS5State)> {
+    let mut raw_out0 = std::ptr::null_mut();
+
+    if bindings::futhark_entry_init5s(ctx, &mut raw_out0, in0, in1, in2, in3, in4) != 0 {
+        return Err(FutharkError::new(ctx).into());
+    }
+    Ok((FutharkOpaqueS5State::from_ptr(ctx, raw_out0)))
+}
 unsafe fn _init8(
     ctx: *mut bindings::futhark_context,
     in0: *const bindings::futhark_u64_1d,
@@ -495,6 +585,38 @@ unsafe fn _mbatch_hash2s(
     Ok((
         Array_u64_2d::from_ptr(ctx, raw_out0),
         FutharkOpaqueS2State::from_ptr(ctx, raw_out1),
+    ))
+}
+unsafe fn _mbatch_hash5(
+    ctx: *mut bindings::futhark_context,
+    in0: *const bindings::futhark_opaque_p5_state,
+    in1: *const bindings::futhark_u64_1d,
+) -> Result<(Array_u64_2d, FutharkOpaqueP5State)> {
+    let mut raw_out0 = std::ptr::null_mut();
+    let mut raw_out1 = std::ptr::null_mut();
+
+    if bindings::futhark_entry_mbatch_hash5(ctx, &mut raw_out0, &mut raw_out1, in0, in1) != 0 {
+        return Err(FutharkError::new(ctx).into());
+    }
+    Ok((
+        Array_u64_2d::from_ptr(ctx, raw_out0),
+        FutharkOpaqueP5State::from_ptr(ctx, raw_out1),
+    ))
+}
+unsafe fn _mbatch_hash5s(
+    ctx: *mut bindings::futhark_context,
+    in0: *const bindings::futhark_opaque_s5_state,
+    in1: *const bindings::futhark_u64_1d,
+) -> Result<(Array_u64_2d, FutharkOpaqueS5State)> {
+    let mut raw_out0 = std::ptr::null_mut();
+    let mut raw_out1 = std::ptr::null_mut();
+
+    if bindings::futhark_entry_mbatch_hash5s(ctx, &mut raw_out0, &mut raw_out1, in0, in1) != 0 {
+        return Err(FutharkError::new(ctx).into());
+    }
+    Ok((
+        Array_u64_2d::from_ptr(ctx, raw_out0),
+        FutharkOpaqueS5State::from_ptr(ctx, raw_out1),
     ))
 }
 unsafe fn _mbatch_hash8(
@@ -618,6 +740,46 @@ impl Drop for FutharkOpaqueP2State {
 }
 
 #[derive(Debug)]
+pub struct FutharkOpaqueP5State {
+    ptr: *const bindings::futhark_opaque_p5_state,
+    ctx: *mut bindings::futhark_context,
+}
+
+impl FutharkOpaqueP5State {
+    pub(crate) unsafe fn as_raw(&self) -> *const bindings::futhark_opaque_p5_state {
+        self.ptr
+    }
+
+    pub(crate) unsafe fn as_raw_mut(&self) -> *mut bindings::futhark_opaque_p5_state {
+        self.ptr as *mut bindings::futhark_opaque_p5_state
+    }
+    pub(crate) unsafe fn from_ptr<T>(ctx: T, ptr: *const bindings::futhark_opaque_p5_state) -> Self
+    where
+        T: Into<*mut bindings::futhark_context>,
+    {
+        let ctx = ctx.into();
+        Self { ptr, ctx }
+    }
+
+    pub(crate) unsafe fn free_opaque(&mut self) {
+        if bindings::futhark_free_opaque_p5_state(self.ctx, self.as_raw_mut()) != 0 {
+            panic!(
+                "Deallocation of object failed, this should not happen \
+                    outside of compiler bugs and driver or hardware malfunction."
+            );
+        }
+    }
+}
+
+impl Drop for FutharkOpaqueP5State {
+    fn drop(&mut self) {
+        unsafe {
+            self.free_opaque();
+        }
+    }
+}
+
+#[derive(Debug)]
 pub struct FutharkOpaqueP8State {
     ptr: *const bindings::futhark_opaque_p8_state,
     ctx: *mut bindings::futhark_context,
@@ -730,6 +892,46 @@ impl FutharkOpaqueS2State {
 }
 
 impl Drop for FutharkOpaqueS2State {
+    fn drop(&mut self) {
+        unsafe {
+            self.free_opaque();
+        }
+    }
+}
+
+#[derive(Debug)]
+pub struct FutharkOpaqueS5State {
+    ptr: *const bindings::futhark_opaque_s5_state,
+    ctx: *mut bindings::futhark_context,
+}
+
+impl FutharkOpaqueS5State {
+    pub(crate) unsafe fn as_raw(&self) -> *const bindings::futhark_opaque_s5_state {
+        self.ptr
+    }
+
+    pub(crate) unsafe fn as_raw_mut(&self) -> *mut bindings::futhark_opaque_s5_state {
+        self.ptr as *mut bindings::futhark_opaque_s5_state
+    }
+    pub(crate) unsafe fn from_ptr<T>(ctx: T, ptr: *const bindings::futhark_opaque_s5_state) -> Self
+    where
+        T: Into<*mut bindings::futhark_context>,
+    {
+        let ctx = ctx.into();
+        Self { ptr, ctx }
+    }
+
+    pub(crate) unsafe fn free_opaque(&mut self) {
+        if bindings::futhark_free_opaque_s5_state(self.ctx, self.as_raw_mut()) != 0 {
+            panic!(
+                "Deallocation of object failed, this should not happen \
+                    outside of compiler bugs and driver or hardware malfunction."
+            );
+        }
+    }
+}
+
+impl Drop for FutharkOpaqueS5State {
     fn drop(&mut self) {
         unsafe {
             self.free_opaque();
