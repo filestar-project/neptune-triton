@@ -37,6 +37,7 @@ void futhark_context_config_set_platform(struct futhark_context_config *cfg,
                                          const char *s);
 void
 futhark_context_config_select_device_interactively(struct futhark_context_config *cfg);
+void futhark_context_config_list_devices(struct futhark_context_config *cfg);
 void futhark_context_config_dump_program_to(struct futhark_context_config *cfg,
                                             const char *path);
 void
@@ -71,9 +72,9 @@ cl_command_queue futhark_context_get_command_queue(struct futhark_context *ctx);
 // Arrays
 
 struct futhark_i64_1d ;
-struct futhark_i64_1d *futhark_new_i64_1d(struct futhark_context *ctx,
+struct futhark_i64_1d *futhark_new_i64_1d(struct futhark_context *ctx, const
                                           int64_t *data, int64_t dim0);
-struct futhark_i64_1d *futhark_new_raw_i64_1d(struct futhark_context *ctx,
+struct futhark_i64_1d *futhark_new_raw_i64_1d(struct futhark_context *ctx, const
                                               cl_mem data, int offset,
                                               int64_t dim0);
 int futhark_free_i64_1d(struct futhark_context *ctx,
@@ -85,10 +86,10 @@ cl_mem futhark_values_raw_i64_1d(struct futhark_context *ctx,
 const int64_t *futhark_shape_i64_1d(struct futhark_context *ctx,
                                     struct futhark_i64_1d *arr);
 struct futhark_i64_2d ;
-struct futhark_i64_2d *futhark_new_i64_2d(struct futhark_context *ctx,
+struct futhark_i64_2d *futhark_new_i64_2d(struct futhark_context *ctx, const
                                           int64_t *data, int64_t dim0,
                                           int64_t dim1);
-struct futhark_i64_2d *futhark_new_raw_i64_2d(struct futhark_context *ctx,
+struct futhark_i64_2d *futhark_new_raw_i64_2d(struct futhark_context *ctx, const
                                               cl_mem data, int offset,
                                               int64_t dim0, int64_t dim1);
 int futhark_free_i64_2d(struct futhark_context *ctx,
@@ -100,9 +101,9 @@ cl_mem futhark_values_raw_i64_2d(struct futhark_context *ctx,
 const int64_t *futhark_shape_i64_2d(struct futhark_context *ctx,
                                     struct futhark_i64_2d *arr);
 struct futhark_u64_1d ;
-struct futhark_u64_1d *futhark_new_u64_1d(struct futhark_context *ctx,
+struct futhark_u64_1d *futhark_new_u64_1d(struct futhark_context *ctx, const
                                           uint64_t *data, int64_t dim0);
-struct futhark_u64_1d *futhark_new_raw_u64_1d(struct futhark_context *ctx,
+struct futhark_u64_1d *futhark_new_raw_u64_1d(struct futhark_context *ctx, const
                                               cl_mem data, int offset,
                                               int64_t dim0);
 int futhark_free_u64_1d(struct futhark_context *ctx,
@@ -114,10 +115,10 @@ cl_mem futhark_values_raw_u64_1d(struct futhark_context *ctx,
 const int64_t *futhark_shape_u64_1d(struct futhark_context *ctx,
                                     struct futhark_u64_1d *arr);
 struct futhark_u64_2d ;
-struct futhark_u64_2d *futhark_new_u64_2d(struct futhark_context *ctx,
+struct futhark_u64_2d *futhark_new_u64_2d(struct futhark_context *ctx, const
                                           uint64_t *data, int64_t dim0,
                                           int64_t dim1);
-struct futhark_u64_2d *futhark_new_raw_u64_2d(struct futhark_context *ctx,
+struct futhark_u64_2d *futhark_new_raw_u64_2d(struct futhark_context *ctx, const
                                               cl_mem data, int offset,
                                               int64_t dim0, int64_t dim1);
 int futhark_free_u64_2d(struct futhark_context *ctx,
@@ -129,10 +130,10 @@ cl_mem futhark_values_raw_u64_2d(struct futhark_context *ctx,
 const int64_t *futhark_shape_u64_2d(struct futhark_context *ctx,
                                     struct futhark_u64_2d *arr);
 struct futhark_u64_3d ;
-struct futhark_u64_3d *futhark_new_u64_3d(struct futhark_context *ctx,
+struct futhark_u64_3d *futhark_new_u64_3d(struct futhark_context *ctx, const
                                           uint64_t *data, int64_t dim0,
                                           int64_t dim1, int64_t dim2);
-struct futhark_u64_3d *futhark_new_raw_u64_3d(struct futhark_context *ctx,
+struct futhark_u64_3d *futhark_new_raw_u64_3d(struct futhark_context *ctx, const
                                               cl_mem data, int offset,
                                               int64_t dim0, int64_t dim1,
                                               int64_t dim2);
